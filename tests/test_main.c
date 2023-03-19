@@ -49,8 +49,11 @@ int main(unsigned long args, void *argp) {
 	// a screenshot
 	CreateScreenReadyFile();
 
-	// Don't want this test to exit if we run it on real hardware
-	for(;;) {}
+	#define EMULATOR_DEVCTL__EMIT_SCREENSHOT 0x00000020
+	sceIoDevctl("kemulator:", EMULATOR_DEVCTL__EMIT_SCREENSHOT, NULL, 0, NULL, 0);
+
+	// // Don't want this test to exit if we run it on real hardware
+	// for(;;) {}
 
 	return 0;
 }
