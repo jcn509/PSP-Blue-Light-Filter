@@ -1,52 +1,51 @@
+FROM ubuntu:22.04
 
-FROM pspdev/pspdev:latest 
+ENV DEBIAN_FRONTEND="noninteractive"
+ENV PSPDEV /usr/local/pspdev
+ENV PATH ${PATH}:${PSPDEV}/bin
 
+RUN \
+  apt-get update && \
+  apt-get install -y \
+    build-essential \
+    cmake \
+    fakeroot \
+    git \
+    libarchive-tools \
+    libgpgme11 \
+    libreadline8 \
+    libusb-0.1 \
+    pkgconf \
+    wget && \
+apt-get -y install autoconf automake bison bzip2 cmake doxygen flex g++ gcc git gzip libarchive-dev libcurl4-openssl-dev libelf-dev libgpgme-dev libncurses5-dev libreadline-dev libssl-dev libtool-bin libusb-dev m4 make patch pkg-config python3 python3-venv subversion tar tcl texinfo unzip wget xz-utils && \
+    apt-get -y install libsdl2-dev libgl1-mesa-dev libglu1-mesa-dev && \
+  rm -rf /var/lib/{apt,dpkg,cache,log}/
 
-RUN apk update && \
-    apk add \
-        cmake \
-        python3 \
-        xvfb
-
-RUN python3 -m ensurepip && \
-    python3 -m pip install --upgrade pip && \
-    python3 -m pip install \
-        pillow \
-        pytest \
-        xvfbwrapper \
-        meson
-
-
-# # Install all needed deps and compile the mesa llvmpipe driver from source.
-# RUN set -xe; \
-#     apk --update add --no-cache --virtual .runtime-deps bison wayland-dev libxrandr-dev wayland-protocols flex glslang ninja xvfb llvm15-libs xdpyinfo; \
-#     apk add --no-cache --virtual .build-deps llvm-dev build-base zlib-dev glproto xorg-server-dev python3-dev; \
-#     python3 -m pip install mako ; \
-#     mkdir -p /var/tmp/build; \
-#     cd /var/tmp/build; \
-#     wget --no-check-certificate "https://mesa.freedesktop.org/archive/mesa-23.0.0.tar.xz"; \
-#     tar xfv mesa-23.0.0.tar.xz; \
-#     rm mesa-23.0.0.tar.xz; \
-#     cd mesa-23.0.0; \
-#     mkdir _build ; \
-#     # Not sure how to do -Denable-glx=gallium-xlib -Ddri=disabled
-#     meson -Dgallium-drivers=swrast -Dgbm=disabled -Degl=disabled -Dosmesa=true -Dprefix=/usr/local _build ; \
-#     cd _build ; \
-#     meson configure ; \
-#     ninja ; \
-#     ninja install ; \
-#     cd ../.. ; \
-#     rm -rf mesa-23.0.0; \
-#     apk del .build-deps;
-
-# TODO: delete the source once done.
-# TODO: uninstall build deps (git etc.)
-# TODO: clear package cache
-RUN apk add git
-RUN git clone --recursive --branch v1.14.4 --depth 1 https://github.com/hrydgard/ppsspp.git
-RUN apk add build-base wget git bash cmake directfb-dev python3 glu-dev sdl2-dev libstdc++ glu-dev && \
-    export CFLAGS=-I/usr/include/directfb/ && \
-    export CXXFLAGS=-I/usr/include/directfb/ && \
-    cd ppsspp && \
-    cmake -DHEADLESS=On . && \
+RUN git clone --recursive --branch v1.14 --depth 1 https://github.com/hrydgard/ppsspp.git
+RUN cd ppsspp && \
+    cmake \
+        -DHEADLESS=On \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DUSE_SYSTEM_FFMPEG=OFF \
+		-DUSE_SYSTEM_LIBPNG=OFF \
+		-DUSE_SYSTEM_LIBSDL2=ON \
+		-DUSE_SYSTEM_LIBZIP=OFF \
+		-DUSE_SYSTEM_MINIUPNPC=OFF \
+		-DUSE_SYSTEM_SNAPPY=OFF \
+		-DUSE_SYSTEM_ZSTD=OFF \
+		-DUSING_QT_UI=OFF \
+		-DUSING_GLES2=ON \
+		-DUSING_EGL=ON \
+        . && \
     make -j"$(nproc)" PPSSPPHeadless
+
+RUN \
+  cd /usr/local && \
+  wget https://github.com/pspdev/pspdev/releases/download/latest/pspdev-ubuntu-latest.tar.gz && \
+  tar xvf pspdev-ubuntu-latest.tar.gz && \
+  rm pspdev-ubuntu-latest.tar.gz
+
+RUN apt update && apt install -y python3 python3-pip && pip install pillow pytest xvfbwrapper
+
+ENV PATH ${PATH}:/ppsspp
