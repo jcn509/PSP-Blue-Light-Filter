@@ -1,16 +1,18 @@
-#include <pspdisplay.h>
-
 #include "blue_light_filter.h"
 
+#include <stdint.h>
 
-int GetPixelSizeBytes(const int pixelformat) {
+#include <pspdisplay.h>
+
+
+static int GetPixelSizeBytes(const int pixelformat) {
 	if (pixelformat == PSP_DISPLAY_PIXEL_FORMAT_8888) {
 		return 4;
 	}
 	return 2;
 }
 
-uint32_t GetBlueLightWordBitMap(const int pixelformat){
+static uint32_t GetBlueLightWordBitMap(const int pixelformat){
 	switch(pixelformat){
 		// 16-bit RGB 5:6:5.
 		case PSP_DISPLAY_PIXEL_FORMAT_565:

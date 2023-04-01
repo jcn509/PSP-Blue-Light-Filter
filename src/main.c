@@ -10,9 +10,9 @@ PSP_MODULE_INFO("PSPBlueLightFilter", PSP_MODULE_KERNEL, 0, 1);
 
 
 static STMOD_HANDLER previous = NULL;
-u32 nextmod = 0;
+static u32 nextmod = 0;
 
-int module_start_handler(SceModule2 * module)
+static int module_start_handler(SceModule2 * module)
 {
 	int ret = previous ? previous(module) : 0;
 
@@ -27,7 +27,7 @@ int module_start_handler(SceModule2 * module)
 	return ret;
 }
 
-int thread_start(SceSize /*args*/, void */*argp*/)
+static int thread_start(SceSize /*args*/, void */*argp*/)
 {
 	previous = sctrlHENSetStartModuleHandler(module_start_handler);
 
