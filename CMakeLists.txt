@@ -44,9 +44,9 @@ function(build_prx ARG_TARGET)
   )
 endfunction()
 
-add_library(BlueLightFilterLib OBJECT src/bluelightfilter.c)
+add_library(BlueLightFilterLib OBJECT src/blue_light_filter.c)
 
-add_executable(BlueLightFilter src/exports.exp src/imports.S src/main.c $<TARGET_OBJECTS:BlueLightFilterLib>)
+add_executable(BlueLightFilter src/exports.exp src/imports.S src/main.c src/hook_display.c $<TARGET_OBJECTS:BlueLightFilterLib>)
 set_property(SOURCE src/imports.S PROPERTY LANGUAGE C)
 set(TOP_LEVEL_INCLUDES_DIR "${CMAKE_CURRENT_LIST_DIR}/src")
 target_include_directories(BlueLightFilter PRIVATE ${TOP_LEVEL_INCLUDES_DIR})

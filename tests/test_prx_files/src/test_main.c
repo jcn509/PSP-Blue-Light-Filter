@@ -4,7 +4,7 @@
 #include <pspmoduleinfo.h>
 #include <pspiofilemgr.h>
 
-#include "bluelightfilter.h"
+#include "blue_light_filter.h"
 #include "test_constants.h"
 
 PSP_MODULE_INFO("BlueLightFilterTest", 0, 1, 0);

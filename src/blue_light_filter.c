@@ -1,6 +1,6 @@
 #include <pspdisplay.h>
 
-#include "bluelightfilter.h"
+#include "blue_light_filter.h"
 
 
 int GetPixelSizeBytes(const int pixelformat) {
