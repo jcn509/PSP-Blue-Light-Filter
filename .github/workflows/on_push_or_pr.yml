@@ -1,0 +1,35 @@
+name: psp_blue_light_filter
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3    
+      - uses: docker/setup-buildx-action@v2
+      - uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: "Dockerfile"
+          tags: pspbluelightfilter:latest
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: false
+      - name: Build code
+        uses: addnab/docker-run-action@v3
+        with:
+          image: pspbluelightfilter:latest
+          run: |
+            mkdir build
+            cd build
+            cmake -DCMAKE_BUILD_TYPE=Release ..
+            make
+      - name: Run tests
+        uses: addnab/docker-run-action@v3
+        with:
+          image: pspbluelightfilter:latest
+          run: pytest tests/tests
+    # TODO: pylint, pytype, push release, cppcheck, clang tidy, clang format
