@@ -2,5 +2,5 @@
 
 mkdir build &&
 cd build &&
-psp-cmake -DCMAKE_BUILD_TYPE=Release .. &&
-make
+psp-cmake -G Ninja -DCMAKE_BUILD_TYPE=Release .. &&
+ninja

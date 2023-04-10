@@ -1,3 +1,7 @@
+"""A script that will run all the test PRXs found in the build directory and
+save a screenshot of each one in the screenshots directory
+"""
+
 import argparse
 import subprocess
 import pathlib
@@ -5,7 +9,14 @@ import glob
 import os
 import shutil
 
-from file_locations import PRX_FILES_BUILD_SUB_DIR, SCREENSHOTS_DIRECTORY, SCREENSHOT_THAT_WONT_MATCH
+# A relative import won't work when running this is a script
+# but this non-relative import doesn't work with pylint
+# pylint: disable=import-error
+from file_locations import (
+    PRX_FILES_BUILD_SUB_DIR,
+    SCREENSHOTS_DIRECTORY,
+    SCREENSHOT_THAT_WONT_MATCH,
+)
 
 
 def _get_build_directory():
@@ -30,13 +41,15 @@ if __name__ == "__main__":
         assert not screenshot_to_copy.exists()
         assert not other_screenshot.exists()
         print(prx)
-        subprocess.run(("PPSSPPHeadless", prx, f"--screenshot={SCREENSHOT_THAT_WONT_MATCH}"), check=True)
+        subprocess.run(
+            ("PPSSPPHeadless", prx, f"--screenshot={SCREENSHOT_THAT_WONT_MATCH}"),
+            check=True,
+        )
 
         assert screenshot_to_copy.exists()
         assert other_screenshot.exists()
         os.unlink(other_screenshot)
 
         shutil.move(
-            screenshot_to_copy,
-            SCREENSHOTS_DIRECTORY / f"{os.path.basename(prx)}.bmp"
+            screenshot_to_copy, SCREENSHOTS_DIRECTORY / f"{os.path.basename(prx)}.bmp"
         )

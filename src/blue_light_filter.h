@@ -1,3 +1,5 @@
 #pragma once
 
-void BlueLightFilter(void * topaddr, int bufferwidth, int pixelformat);
+#include <stdint.h>
+
+void BlueLightFilter(uint8_t* topaddr, int bufferwidth, int pixelformat);
