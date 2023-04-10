@@ -18,7 +18,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           push: false
-      # CMake will also run clang-tidy to analyse the code
+      # Building will also run clang-tidy and Cppcheck to analyse the code
       - name: Build code
         uses: addnab/docker-run-action@v3
         with:

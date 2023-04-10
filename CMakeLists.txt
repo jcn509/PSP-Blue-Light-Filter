@@ -12,7 +12,7 @@ endif()
 set(CMAKE_C_CLANG_TIDY clang-tidy-15)
 set(CMAKE_CXX_CLANG_TIDY ${CMAKE_C_CLANG_TIDY})
 
-# Enable CppCheck integration
+# Enable Cppcheck integration
 set(CMAKE_C_CPPCHECK
   cppcheck
   --error-exitcode=1
