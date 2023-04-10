@@ -3,7 +3,7 @@ name: psp_blue_light_filter
 on: [push, pull_request]
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -18,6 +18,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           push: false
+      # CMake will also run clang-tidy to analyse the code
       - name: Build code
         uses: addnab/docker-run-action@v3
         with:
@@ -30,4 +31,4 @@ jobs:
           image: pspbluelightfilter:latest
           options: -v ${{ github.workspace }}:/work --shm-size 8G
           run: cd /work && pytest -vv -s tests/tests
-    # TODO: pylint, pytype, push release, cppcheck, clang tidy, clang format
+    # TODO: pylint, pytype, push release, cppcheck, clang format check
