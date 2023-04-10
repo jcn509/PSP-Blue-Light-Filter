@@ -22,14 +22,12 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: pspbluelightfilter:latest
-          run: |
-            mkdir build
-            cd build
-            cmake -DCMAKE_BUILD_TYPE=Release ..
-            make
+          options: -v ${{ github.workspace }}:/work
+          run: cd /work && .github/scripts/build.sh
       - name: Run tests
         uses: addnab/docker-run-action@v3
         with:
           image: pspbluelightfilter:latest
-          run: pytest tests/tests
+          options: -v ${{ github.workspace }}:/work
+          run: cd /work && pytest tests/tests
     # TODO: pylint, pytype, push release, cppcheck, clang tidy, clang format
