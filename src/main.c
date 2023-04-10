@@ -9,6 +9,7 @@
 PSP_MODULE_INFO("PSPBlueLightFilter", PSP_MODULE_KERNEL, 0, 1);
 
 
+// NOLINTNEXTLINE
 static STMOD_HANDLER previous = NULL;
 // NOLINTNEXTLINE
 static u32 nextmod = 0;
