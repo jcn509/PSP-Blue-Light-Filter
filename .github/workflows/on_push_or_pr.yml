@@ -28,6 +28,6 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           image: pspbluelightfilter:latest
-          options: -v ${{ github.workspace }}:/work
-          run: cd /work && pytest tests/tests
+          options: -v ${{ github.workspace }}:/work --shm-size 8G
+          run: cd /work && pytest -vv -s tests/tests
     # TODO: pylint, pytype, push release, cppcheck, clang tidy, clang format
