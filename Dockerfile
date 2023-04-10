@@ -9,6 +9,7 @@ RUN \
   apt-get install -y \
     build-essential \
     cmake \
+    clang-tidy-15 \
     fakeroot \
     git \
     libarchive-tools \

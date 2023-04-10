@@ -1,5 +1,4 @@
-#ifndef _SCTRL_H
-#define _SCTRL_H
+#pragma once
 
 #include <pspkernel.h>
 
@@ -50,5 +49,3 @@ typedef struct SceModule2
 
 typedef int (* STMOD_HANDLER)(SceModule2 *);
 STMOD_HANDLER sctrlHENSetStartModuleHandler(STMOD_HANDLER handler);
-
-#endif /* _SCTRL_H */

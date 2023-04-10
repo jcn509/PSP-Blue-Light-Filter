@@ -8,7 +8,14 @@ if (NOT PLATFORM_PSP)
   message(FATAL_ERROR "Can only build for PSP")
 endif()
 
+set(CMAKE_C_CLANG_TIDY clang-tidy-15)
+set(CMAKE_CXX_CLANG_TIDY ${CMAKE_C_CLANG_TIDY})
+
 add_compile_options(-Wall -Wextra -Werror)
+
+# Make sure the PSP library headers are seen as system headers
+# so that we don't get static analysis errors from within them
+string(REPLACE "-I" "-isystem " CMAKE_C_FLAGS ${CMAKE_C_FLAGS})
 
 # Enable Link-Time Optimization, AKA Inter-Procedure Optimization
 if(NOT ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug"))
@@ -46,8 +53,19 @@ endfunction()
 
 add_library(BlueLightFilterLib OBJECT src/blue_light_filter.c)
 
-add_executable(BlueLightFilter src/exports.exp src/imports.S src/main.c src/hook_display.c $<TARGET_OBJECTS:BlueLightFilterLib>)
+add_library(
+  target_no_static_code_analysis
+  OBJECT
+  src/imports.S
+)
+set_target_properties(
+  target_no_static_code_analysis
+  PROPERTIES
+    C_CLANG_TIDY ""
+)
 set_property(SOURCE src/imports.S PROPERTY LANGUAGE C)
+
+add_executable(BlueLightFilter src/exports.exp src/main.c src/hook_display.c $<TARGET_OBJECTS:target_no_static_code_analysis> $<TARGET_OBJECTS:BlueLightFilterLib>)
 set(TOP_LEVEL_INCLUDES_DIR "${CMAKE_CURRENT_LIST_DIR}/src")
 target_include_directories(BlueLightFilter PRIVATE ${TOP_LEVEL_INCLUDES_DIR})
 # -nostdlib along with linking against pspkernel is equivelant to USE_KERNEL_LIBC in an older PSP make file

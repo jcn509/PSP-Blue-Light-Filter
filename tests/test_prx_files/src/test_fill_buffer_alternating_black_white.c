@@ -13,7 +13,7 @@ void FillBuffer() {
 	    bool even = false;
         // May end up writing beyond the end of the visible part of the buffer but that
         // is OK as the emulator does not complain
-        for(size_t offset = 0; offset < BUFFER_WIDTH * SCREEN_HEIGHT; offset++) {
+        for(size_t offset = 0; offset < (size_t)BUFFER_WIDTH * (size_t)SCREEN_HEIGHT; offset++) {
             const uint32_t value = even ? UINT32_MAX : 0;
             *((uint32_t*)VRAM_TOP + offset) = value;
             even = !even;

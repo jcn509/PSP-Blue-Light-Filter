@@ -1,3 +1,3 @@
 #pragma once
 
-void BlueLightFilter(void * const topaddr, const int bufferwidth, const int pixelformat);
+void BlueLightFilter(void * topaddr, int bufferwidth, int pixelformat);

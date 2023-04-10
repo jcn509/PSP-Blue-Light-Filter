@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdint.h>
 
-void SetEachWordInBuffer(const uint32_t value);
+void SetEachWordInBuffer(uint32_t value);
