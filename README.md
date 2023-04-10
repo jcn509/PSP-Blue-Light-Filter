@@ -7,7 +7,7 @@ Note: currently only runs in game and not on the XMB and is not compatible with 
 Use the provided container to build and test the code. When running the container you must use `--shm-size 8G` or the tests will fail.
 
 ## Building the code and tests
-From inside the container run `.gitlab/workflows/build.sh`. Most compiler warnings are considered errors and so the build will fail if any warnings are generated. Clang-tidy and Cppcheck are also run whenever the code is built and if any errors are found by these tools then they will also cause the build to fail.
+From inside the container run `.github/scripts/build.sh`. Most compiler warnings are considered errors and so the build will fail if any warnings are generated. Clang-tidy and Cppcheck are also run whenever the code is built and if any errors are found by these tools then they will also cause the build to fail.
 
 ## Automated tests
 A number of automated test PRX modules that can be used with PPSSPP get built that test that the blue light filter works as expected.
