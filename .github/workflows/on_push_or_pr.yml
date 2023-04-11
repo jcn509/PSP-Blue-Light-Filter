@@ -31,4 +31,7 @@ jobs:
           image: pspbluelightfilter:latest
           options: -v ${{ github.workspace }}:/work --shm-size 8G
           run: cd /work && pytest --pylint -vv -s tests/tests
-    # TODO: pytype, push release, clang format check
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/BlueLightFilter.prx

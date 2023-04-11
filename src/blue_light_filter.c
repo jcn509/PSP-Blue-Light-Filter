@@ -46,7 +46,7 @@ void BlueLightFilter(uint8_t* const topaddr, const int bufferwidth,
   const uint32_t blue_light_bitmap = GetBlueLightWordBitMap(pixelformat);
 
   // Process one word at a time for speed
-  // It was easier to do the maths in terms of bytes so using char pointers
+  // It was easier to do the maths in terms of bytes so using uint8_t pointers
   for (uint8_t* current_word_row = topaddr;
        current_word_row < topaddr + buffer_size_bytes;
        current_word_row += bytes_per_buffer_row) {
