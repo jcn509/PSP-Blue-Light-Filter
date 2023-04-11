@@ -3,6 +3,11 @@ A PSP plugin that filters out all blue light as blue light can disrupt your circ
 
 Note: currently only runs in game and not on the XMB and is not compatible with all games.
 
+## Usage
+You must be using 6.61 custom firmware. This plugin was tested on a PSP 3000 using 6.61 PRO-C.
+
+Download the latest version of BlueLightFilter.prx from the [releases page](https://github.com/jcn509/PSP-Blue-Light-Filter/releases) and copy it to the seplugins folder on the root of your memory stick (create the folder if it does not exist.). Afterwards, add the following line to seplugins/Game.txt: `ms0:/seplugins/BlueLightFilter.prx 1`. (Note: if you are using a PSP GO and you put the plugin on the internal storage then replace ms0 with ef0.)
+
 ## Container
 Use the provided container to build and test the code. When running the container you must use `--shm-size 8G` or the tests will fail.
 
