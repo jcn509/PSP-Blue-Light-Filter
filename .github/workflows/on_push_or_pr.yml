@@ -31,7 +31,13 @@ jobs:
           image: pspbluelightfilter:latest
           options: -v ${{ github.workspace }}:/work --shm-size 8G
           run: cd /work && pytest --pylint -vv -s tests/tests
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1.0.0
+        with:
+          name: BlueLightFilter.prx
+          path: build/
       - name: Release
         uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: build/BlueLightFilter.prx
